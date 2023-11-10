@@ -1,0 +1,14 @@
+2023-10-25 13:57:30 -0400   21012 execution          INFO     Start to run 6 nodes with concurrency level 16.
+2023-10-25 13:57:30 -0400   21012 execution.flow     INFO     Executing node modify_query_with_history. node run id: b521de08-a8d9-4968-9aa2-f2d00639b828_modify_query_with_history_0
+2023-10-25 13:57:31 -0400   21012 execution.flow     INFO     Node modify_query_with_history completes.
+2023-10-25 13:57:31 -0400   21012 execution.flow     INFO     Executing node embed_the_question. node run id: b521de08-a8d9-4968-9aa2-f2d00639b828_embed_the_question_0
+2023-10-25 13:57:31 -0400   21012 execution.flow     INFO     Node embed_the_question completes.
+2023-10-25 13:57:31 -0400   21012 execution.flow     INFO     Executing node search_question_from_indexed_docs. node run id: b521de08-a8d9-4968-9aa2-f2d00639b828_search_question_from_indexed_docs_0
+2023-10-25 13:57:31 -0400   21012 execution.flow     INFO     Node search_question_from_indexed_docs completes.
+2023-10-25 13:57:31 -0400   21012 execution.flow     INFO     Executing node generate_prompt_context. node run id: b521de08-a8d9-4968-9aa2-f2d00639b828_generate_prompt_context_0
+2023-10-25 13:57:31 -0400   21012 execution.flow     INFO     Node generate_prompt_context completes.
+2023-10-25 13:57:31 -0400   21012 execution.flow     INFO     Executing node Prompt_variants. node run id: b521de08-a8d9-4968-9aa2-f2d00639b828_Prompt_variants_0
+2023-10-25 13:57:31 -0400   21012 execution.flow     INFO     Node Prompt_variants completes.
+2023-10-25 13:57:31 -0400   21012 execution.flow     INFO     Executing node answer_the_question_with_context. node run id: b521de08-a8d9-4968-9aa2-f2d00639b828_answer_the_question_with_context_0
+2023-10-25 13:57:31 -0400   21012 execution.flow     WARNING  Output of answer_the_question_with_context is not json serializable, use str to store it.
+2023-10-25 13:57:31 -0400   21012 execution.flow     INFO     Node answer_the_question_with_context completes.

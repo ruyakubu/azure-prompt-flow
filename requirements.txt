@@ -1,0 +1,6 @@
+promptflow[azure]
+promptflow-tools==0.1.0.b5
+promptflow-vectordb
+azure-ai-ml
+azure-content-safety
+keyring >= 4.1.1

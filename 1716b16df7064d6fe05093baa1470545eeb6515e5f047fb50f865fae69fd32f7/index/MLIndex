@@ -1,0 +1,13 @@
+embeddings:
+  connection:
+    id: /subscriptions/8a0f6419-1f4c-45b3-8d92-ee53be1ea443/resourceGroups/demoRG/providers/Microsoft.MachineLearningServices/workspaces/aml-ws/connections/Default_AzureOpenAI
+  connection_type: workspace_connection
+  dimension: 768
+  file_format_version: '2'
+  kind: hugging_face
+  model: sentence-transformers/all-mpnet-base-v2
+  schema_version: '2'
+index:
+  engine: langchain.vectorstores.FAISS
+  kind: faiss
+  method: FlatL2
