@@ -81,7 +81,7 @@
         }
       },
       "package": "promptflow-tools",
-      "package_version": "0.1.0b9"
+      "package_version": "0.1.0b8"
     }
   },
   "code": {
@@ -187,6 +187,38 @@
         }
       },
       "source": "modify_query_with_history.jinja2"
+    },
+    "format_prompt.jinja2": {
+      "type": "prompt",
+      "inputs": {
+        "question": {
+          "type": [
+            "string"
+          ]
+        },
+        "contexts": {
+          "type": [
+            "string"
+          ]
+        },
+        "chat_history": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "format_prompt.jinja2"
+    },
+    "prompt_answer.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "text": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "prompt_answer.jinja2"
     }
   }
 }
