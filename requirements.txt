@@ -1,6 +1,11 @@
-promptflow[azure]
+
+azureml-mlflow==1.53.0
+promptflow[azure] @https://azuremlsdktestpypi.blob.core.windows.net/repo/promptflow/promptflow-0.0.109137057-py3-none-any.whl
 promptflow-tools==0.1.0.b5
 promptflow-vectordb
 azure-ai-ml
 azure-content-safety
 keyring >= 4.1.1
+pytest
+# inference server dependencies
+azureml-inference-server-http
