@@ -42,6 +42,7 @@ nodes:
     path: azureml://subscriptions/8a0f6419-1f4c-45b3-8d92-ee53be1ea443/resourcegroups/demoRG/workspaces/aml-ws/datastores/workspaceblobstore/paths/azureml/1ae60957-cc09-4e59-b29e-f5b5698dfacc/index/
     query: ${embed_question.output}
     top_k: 2
+  aggregation: false
 - name: format_prompt
   type: prompt
   source:

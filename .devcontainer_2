@@ -17,6 +17,7 @@
 			"extensions": [
 				"ms-python.python",
 				"ms-toolsai.jupyter",
+				"ms-toolsai.vscode-ai",
 				"prompt-flow.prompt-flow"
 			]
 		}
