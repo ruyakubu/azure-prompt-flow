@@ -1,0 +1,4 @@
+2023-11-28 17:52:06 -0500    7336 execution.flow     INFO     Start to run 1 nodes with concurrency level 16.
+2023-11-28 17:52:06 -0500    7336 execution.flow     INFO     Executing node chat. node run id: e4a212e8-ebd7-4ac1-8817-27c50f7a11f0_chat_0
+2023-11-28 17:52:07 -0500    7336 execution.flow     WARNING  Output of chat is not json serializable, use str to store it.
+2023-11-28 17:52:07 -0500    7336 execution.flow     INFO     Node chat completes.
