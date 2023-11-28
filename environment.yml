@@ -7,7 +7,7 @@ dependencies:
   - python=3.8
   - pip
   - pip:
-    - promptflow[azure] @https://azuremlsdktestpypi.blob.core.windows.net/repo/promptflow/promptflow-0.0.109137057-py3-none-any.whl
+    - promptflow[azure] 
     - promptflow-tools==0.1.0.b5
     - promptflow-vectordb==0.1.2
     - azure-ai-ml

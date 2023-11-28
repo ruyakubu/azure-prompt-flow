@@ -27,6 +27,6 @@ RUN pip install jupyterlab && jupyter notebook --generate-config
 WORKDIR /
 
 # This is to support updating conda environment with user supplied packages with environment.yml
-COPY environment.yml* noop.txt /tmp/conda-tmp/
+COPY environment.yml* .devcontainer/noop.txt /tmp/conda-tmp/
 RUN if [ -f "/tmp/conda-tmp/environment.yml" ]; then umask 0002 && /miniconda/bin/conda env update -n base -f /tmp/conda-tmp/environment.yml; fi \
     && rm -rf /tmp/conda-tmp
