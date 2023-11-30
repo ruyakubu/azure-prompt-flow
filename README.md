@@ -8,7 +8,9 @@ That’s where Azure Prompt Flow, is valuable if providing a user-friendly logic
 
 ![](/img/rag-pattern.png)
 
-After the workshop, you learn how to:
+**Custom Data**:
+
+👩🏽‍💻 | After the workshop, you learn how to:
 
 -	Chat flow that takes input and produces output while keeping a dialog history.
 -	Take custom data (in csv file) and convert the data into tokenized embeddings with vector indexes.
@@ -17,24 +19,75 @@ After the workshop, you learn how to:
 -	Use the Python tool to create custom functions to preprocess data or call an API 
 -	Use the Prompt tool to format the output response.
 
-## Prerequisites:
--	Login or Signup for a Free Azure account
 
-## Launch GitHub code spaces to create Azure resources
+## ✅ |Prerequisites:
+To complete this workshop, you need the following:
+1. Login or Signup for a [Free Azure account](https://azure.microsoft.com/free/)
+2. GitHub account with access to GitHub Codespaces.
+3. Install Python 3.8 or higher.
+
+# Getting Started using GitHub Codespaces
+
+To get started quickly, you can use a pre-built development environment. **Click the button below** to open the repo in GitHub Codespaces, and then continue the readme!
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/azure-prompt-flow?quickstart=1)  
+
+This will launch a Codespaces environment with all the dependencies installed.  Once the environment is ready, you can run the following commands to create the Azure resources and run the sample code.
+
+**Note**: You can also access the codespaces by clicking on the green **Code** button in the top right of the repo.  Then selecting the "Codespaces" tab and clicking on the **Create codespace on main** button to launch the Codespaces environement.
+
+![](/img/gh-codespaces.png)
+
+This will launch a Codespaces environment with all the dependencies installed.  Once the environment is ready. This will take ~ 10 minutes.  
+
+![](/img/github-load-codespaces.png)
+
+On the environment is ready, a Visual Studio Code editor will open.
+
+![](/img/vsc-prompt.png)
+
+First, set the python environment to Python 3.8
+
+```shell
+conda activate py38_env
+```
+
+At the commmand prompt, authenticate to Azure by running the following command:
+
+```shell
+az login --use-device-code
+```
+
+Enter the code provided in the browser to authenticate to Azure.  Once authenticated, you need to set your Azure subscription.
+
+```shell
+az account set --subscription <your-subscription-id>
+```
+
+
+## Create Azure resource
+
+Now, we are ready to run the setup create the Azure resources, run the following command:
+
+```shell
+bash setup.sh
+```
+
+The setup creates the following Azure resources:
+
 -	Create Azure OpenAI
--	Add deployment to OpenAI instance
--	Create Azure Content Safety
+-	Add deployment OpenAI models
 -	Create Azure ML workspace
 -	Create Azure ML compute
 -	Create Azure ML custom environment
 -	Launch AzureML studio
 
-## Enable Prompt Flow and Access Connection data
-Before we can do this, we’ll need to retrieve details on the Azure OpenAI API instance provisioned in your Azure account.
+## Access Connection data
+Before we can run promptflow, we’ll need to retrieve details on the Azure OpenAI API instance provisioned in your Azure account.
 
 Azure OpenAI
-1.	Open the Azure portal, in the search box type “Azure OpenAI”, then press enter to search your resource.
-2.	Click on Azure OpenAI.  You should see your OpenAI instance list on the Azure AI Services page for Azure OpenAI
+1.	Open the [Azure portal](http://portal.azure.com/), in the search box type **Azure OpenAI**, then press enter to search your resource.
+2.	Click on Azure OpenAI from the list of services.  You should see your OpenAI name list on the Azure AI Services page for Azure OpenAI
 
 ![](/img/azure-open-ai.png)
 
@@ -53,152 +106,137 @@ Azure OpenAI
 	  
 11.	 Close the browse tab for the Azure OpenAI Studio
 
-*Azure Content Safety*
 
-1.	Open the browser tab for the Azure portal, and in the search box type “Content Safety”, then press enter to search your resource.
-2.	Select Content Safety.  You should see your Content Safety instance list on the Azure AI Services page for Content Safety
-
-![](/img/content-safety.png)
- 
-3.	Click on your content safety instance.  Copy the name to be  used later
-4.	Under Resource Management, select the Keys and Endpoint on the left-hand side of the navigation bar
-5.	Copy Key 1 and the Endpoint URL.  Store both values in a clipboard for later use
- 
- ![](/img/cs-key-endpt.png)
-
-*Enable Prompt Flow* 
-
-1.	Open [Azure ML studio](https://ml.azure.com/), and click on the bullhorn icon on the upper right corner of the page.
- 
-2.	Locate **Build AI solutions with Prompt Flow**, switch it to Enabled the feature.
-3.	Close the features blade.
 
 ## Add Flow connections
 
-As you work on creating Flows, it may have dependencies, services or external resources that you would need to connect to; such as OpenAI, Content Safety AI or your custom LLM models.  It enables users to add and manage connection to these resources as well as a their connection secrets.  Once a resource is connected, your Flow nodes have access to the resources metadata (e.g. name, api key, api_endpoint, or type).  In this workshop, we’ll be using the Azure OpenAI API and Azure Content Safety.
+As you work on creating Flows, it may have dependencies, services or external resources that you would need to connect to; such as OpenAI, Content Safety AI or your custom LLM models.  It enables users to add and manage connection to these resources as well as a their connection secrets (e.g. name, api key, api_endpoint, or type).  
 
-First, we’ll add the connection for Azure OpenAI API.  
+We’ll add the connection for Azure OpenAI API.  
 
-1.	Open the [Azure ML studio](https://ml.azure.com/),  and select **Prompt Flow** on the left-hand side of the navigation bar
-2.	Click on the **Connections** tab on the Prompt Flow page
-3.	Click on the **Create** button, then select **Azure OpenAI** option in the drop-down menu
-4.	Enter a **Name** 
-5.	The Azure OpenAI option should be selected for **Provider**.
-6.	Select your subscription under **Subscription id**.
-7.	Select your OpenAI instance name under **Azure OpenAI Account Names** drop-down menu.
-8.	Paste the Key 1 value for Azure OpenAI you copied earlier in the **API key** textbox.
-9.	Paste the Language API URL you copied earlier in the **API base** textbox.
-10.	The **API type** should be set to the default value (e.g. azure)
-11.	The **API version** should be set to the default value (e.g. 2023-07-01-preview)
-12.	 Click **Save**
+1.	Open the browser the tab for the GitHub Codespaces for Visual Studio Code.
 
-Next, we’ll add the connection for Content Safety.   
+2.  Run the following command to create a connect to Azure OpenAI:
 
-1.	Click on the **Create** button, then select **Azure Content Safety** option in the drop-down menu
-2.	Enter a **Name**
-3.	The **Provider** should be set to Azure content safety
-4.	Paste the Key 1 value for content safety you copied earlier in the **API key** textbox.
-5.	Paste the Endpoint URL you copied earlier in the **Endpoint** textbox.
-6.	The API version should be set to the default value (e.g. *2023-04-30-preview*)
-7.	The **API type** should be set to the default value (e.g. *Content Safety*)
-8.	Click **Save**
+```shell
+pf connection create --file connection/openai.yml --set api_key=your_api_key --name open_ai_conn
+```
 
-## Create a Runtime 
-
-To run the Prompt Flow nodes, you need to create a Runtime.  Runtime serve as the compute with a docker environment for executing the flows.  The Compute instance are the VMs and the environment are create from a docker image that contains the Python packages and dependencies need to run the Flow.  When creating a runtime, you have the option of choosing a default curated environment; or you can create your own custom environment.
-
-To create runtime environment, complete the following steps:
-
-1.	Click on the **Runtime** tab; than click **Create** button
-2.	Enter a **Runtime name**
-3.	Select on existing compute under the **Select Azure ML compute instance** drop-down menu.  If there’s no existing compute instance, click on **Create Azure ML compute instance**
-
-4.	Under **Custom Application**, select the **New** option
-
-5.	Under **Environment**, select **Use customized environment**.
-
-6.	Under **Environment type**, select “xyz”
-
-7.	Click on **Create**
-
-## Exercise 1: Bring your own data
+## Bring your own data
 
 Open AI and most LLM models are training from various publicly available data.  However, there are instances where we need to use our own data and narrow the actions and data search of our LLM prompts to focus only on the scope of our data or expand the data from LLM model to include our data as well.  To use your own data in a LLM, you need to convert you data into numeric values.  Each word mapping to a specific number (token).  Then you train a model to find similarities, collations, or word association, the model creates vector indexes to the word associations.   The good thing is the Prompt Flow service provide an easy-to-use process your to upload dataset and it generates model and the Vector indexes.
 
 To upload custom data for this lab, you need to use the Contoso Dentist clinic data located in *data/contoso_dental.xls*.
 
-1.	Click on the **Vector index** tab.  
-2.	Click on the **Create** button.
-3.	Enter an index name in the **New vector index name**
-4.	Select **Local folders** under the **Data source type** drop-down menu
-5.	Click on the + icon for **Click to Update Folders**.  Then navigate to **/data** folder in the local directory. 
-6.	Select the **data** folder.  Confirm that the blade displays the dental_office.xls file
-7.	Select **Faiss Index** for the **Vector store**.
-8.	Click **Next**
-9.	Select your OpenAI connection name from the **choose connection** drop-down menu
-10.	Click **Next**
-11.	Select **Compute instance** option under the **Select compute type** drop-down menu
-12.	Select the name of your runtime under the **Select Azure ML compute instance**
-13.	Click **Next**
-14.	Review the selections and click on **Create**
-15.	Use the **Status** section of the page, to monitor the Vectior index creation job status.  
- 
-![](/img/vector-index-pipeline.png)
+1.	Open the *src/create_faiss_mlindex.ipynb* notebook in the Visual Studio Code editor.
+2.	Click on the **Select Kernel** button.
 
-16.	Wait till all the job nodes complete successfully.
+![](/img/kernel-select.png)
 
-![](/img/vector-index-output.png)
- 
-17.	Azure Machine Learning automatically creates an example Flow for you.
+3.	Select **Python Environment** from the drop-down menu.  Then pick the condo **Python 3.8** kernel.
+4. Before running the notebook, you need to replace the following placeholders with values with your Azure OpenAI connection details:
+* **os.environ["AOAI_CONNECTION_NAME"]**:  Replace with your prompt flow connection name you created above.
+* **os.environ["AOAI_API_KEY"]**:  Replace with your Azure OpenAI API key.
+* **os.environ["AOAI_ENDPOINT_URL"]**:  Replace with your Azure OpenAI API endpoint.
+os.environ["TEXT_EMBEDDING_DEPLOYMENT_NAME"]:  Replace with your Azure OpenAI deployment name for the text-embedding-ada-002 model.
+5. Next, you need to upload your *config.json* file to the Azure ML workspace.  To do this, open [Azure ML studio](https://ml.azure.com/).
+6. On the right corner the page, click on the down arrow.Click on the **Download config file** button.  
 
-## Exercise 2:  Create Chat Flow
+![](/img/download-config-json.png)
 
-We will learn how to create a basic chat agent that interacts with prompts power by an OpenAI model.
+7. Then browse to the download **config.json** file in your local director.  In the Visual Studio Code editor, click on the *src* folder and upload or paste the *config.json* to the directory.
 
-1.	In Azure ML studio, click on Prompt Flow.  
-2.	On the Prompt flow page, select the **Flow** tag.   Then click on **Create** button.
-This displays a gallery of different types of flows and evaluation templates you can clone.  
-3.	In this lab, under **Chat Flow**, click on the Create button.
-4.	Enter a **Folder name** on the Create a new file blade.
-5.	Press **Create**.
+![](/img/config-upload-src.png)
+
+8. Click on the **Run All** button on the top of the notebook to run the notebook.
+9. It take ~10 for the notebook to running.
+10. Click on the **Link to Azure Machine Learning studio** click in the notebook to open the Azure ML job pipeline.
+
+![](/img/pipeline-vector-index.png)
+
+11. On the left-hand side of the page, click on the **Data** open.
+12. Under the **Data sources**, click **dental_faiss_mlindex** to open the vector data.
+13. Finally copy the **Datastore URI** value.  We’ll use this value in the next exercise.
+
+![](/img/datastore-url.png)
+
+## Run Chat template
+
+Azure Machine Learning studio promptflot provide a gallery of flows templates to build on.  We will start by using a basic chat template that interacts with prompts powered by an OpenAI model.
+
+1.	In Visual Studio code editor, expand the **my-chatbot** folder.  Then open on the **flow.dag.yaml** file. 
+2.	Scroll to the top of the file and click on the **Visual editor** option to open the logical flow graph.
+
+![](/img/chat-template-visualselect.png)
 
 *Input Node*
 
-On flow page, Prompt generates the Input fields need for the chat input node.  The right side of the page displays a pipeline containing action nodes with logic needed to build the flow.
+On flow page, promptflow generates the Input fields need for the chat input node.  The inputs needed for the chat node are **chat_history** and **question**.  
 
-Add LLM model for the Chat prompt
+Add Azure OpenAI connection for the Chat 
 
-1.	Under the **Connection** drop-down menu, select the name for OpenAI connection created earlier.
-2.	Make sure Chat is select for **Api**
-3.	Select **deployment_name**
-4.	Skip the **Advanced** and **Function** calling section.
-5.	The **Prompt** section is already prepopulated for you:
-* System: Contains a rule for the agent.  You can enter instructions on how to handle use inquiries.
-* Since the Chat flow keeps the context and dialogue of the conversation, the prompt loops through the chat history to display what the assistant and user entered.
-* At the end, the prompt creates a prompt for the user to enter a question.
+1.	Under the **chat** section on the right-side of the file, click on the **Add connection** button.
+
+![](/img/add-chat-connection.png)
+
+2. Select the **AzureOpenAI** option on top of the page.
+
+![](/img/azureopenai-connection-option.png)
+
+3. Enter a **name** for the connection 
+4. For the **api_base**, enter your Azure OpenAI API endpoint url you copied earlier.
+5. Save the file.
+6. Click on **Create connection** 
+
+![](/img/add-connection.png)
+
+7. Copy and paste the azure openai key you copied earlier in the **api_key** command prompt.
+
+![](/img/enter-api-key.png)
+
+8. The api_key will be stored in the **secrets** section of the flow file.  This will enable you to use the api_key in other nodes in the flow.
+
+![](/img/azureopenai-connect-success.png)
+
+9. Open the **flow.dag.yaml** file.  In the **chat** section, select connection name you just created in the **connection** drop-down menu.
+
+10. For the **deployment_name**, enter the deployment name for the **gpt-35-turbo** model you copied earlier.
+
+![](/img/chatnode-connection-input.png)
 
 *Output Node*
 
-If you scroll back to the Output section, you’ll see that the answer is linked to the Chat nodes output.
+If you scroll back to the Output section, you’ll see that the **answer** is linked to the Chat nodes output.
 
-Lab1: Run the Chat
+*Run the Chat*
 
-1.	To test the Chat flow, click on the **Chat** icon
+1.	To test the Chat flow, click on the **Run** icon
 
 ![](/img/new-chat.png)
+
+2. On top of the page, select **Run it with interactive mode (text-only)** option.
+
+![](/img/run-interactive-mode.png)
  
-2.	Enter “what is prompt engineering” in the text box and click submit icon.
+3. Enter the input below for the **User** prompt and click enter.
 
-![](/img/what-is-prompt.png)
+```shell
+what's a tooth cavity?
+```
 
-3.	Next, enter “My molar tooth is aching so bad.  What could be the cause?”
-4.	Finally, enter “What is the address of your dental clinic?”
+![](/img/what-is-cavity.png)
+
+4.	Finally, enter the input below for the **User** prompt and click enter.
+
+```shell
+What is the address of your dental clinic?
+```
 
 ![](/img/dental-address.png)
  
 As you can see the Chat is not able to answer specific questions about a business or dental clinic.   This makes some of the answers not reliable or available.  In the next exercise, you learn how to bring your custom data into the chat to provide response that are relevant to your data.
 
-## Exercise 3: Create Chat agent to use custom data.
+## Create Chat agent to use custom data.
 In the precise exercise you create a vector index and train to search for your vector embeddings.  In the exercise, you’ll be expanding the Chat pipeline logic to take the user question and convert to numeric embeddings.  Then we’ll use the numeric embedding to search the numeric vector.  Next, we’ll use the prompt to set rules with restrictions and how to display the data to the user.
 
 We'll be using the following tools:
@@ -207,35 +245,43 @@ We'll be using the following tools:
 -	**Prompt**: enters user to add rules on the response show be sent to user
 -	**LLM**: provides the LLM prompt or LLM model response to user
  
-1.	Open the Flow page, by clicking **Prompt Flow**.
-2.	Click you the Chat flow you created in Exercise 1.
-3.	On the Flow toolbar, click on **More tools**.  Then select the **Embedding tool**.
+1.	Open Prompt Flow service for Visual Studio code, by clicking the icon.
+
+![](/img/promptflow-icon.png)
+
+2.	On the **TOOLS** toolbar, select the **Embedding** tool by clicking on plus icon **+**.  
 
 ![](/img/flow-tools.png)
  
-4.	Enter **Name** for the node (e.g. embed_question).
-5.	Click the **Add** button.
-6.	Select the **AzureOpenAIconnection** name you created earlier.
-7.	Select **Text-embedding-ada-002** deployment name you created earlier
-8.	For **Input**, select *${inputs.question}*.  This should create a node under the input node.
+3.	Enter **Name** for the node (e.g. embed_question) in the pop-up entry on top of the page. Then press **Enter**.  This will generate a new Embedding section at the bottom of the flow.
 
-![](/img/search-vector.png)
+![](/img/add-embedding-node.png)
+
+4.	Select the **AzureOpenAIconnection** name you created earlier.
+5.	Select **Text-embedding-ada-002** deployment name you created earlier
+6.	For **Input**, select *${inputs.question}*.  This should create a node under the input node.
+
+![](/img/embed-section.png)
  
-9.	Click the Save button
-10.	On the Flow toolbar, click on **More tools**.  Then select the Vector Index Lookup tool.  This will generate a new **Vector Index Lookup** section at the bottom of the flow.
-11.	Enter **Name** for the node (e.g. search_vector_index).
-12.	Click the **Add** button
-13.	For **Path**, copy and paste the Datastore URI you retrieve earlier for the vector index.
-14.	Select the embedding output as the **query** field (e.g. *${embed_question.output}*).
+* Vector Index Lookup*
+
+1.	On the **TOOLS** toolbar, select the **Vector Index Lookup** tool by clicking on plus icon **+**.  
+2.	Enter **Name** for the node (e.g. search_vector_index).  This will generate a new **Vector Index Lookup** section at the bottom of the flow.
+3.	For **Path**, copy and paste the Datastore URI you retrieve earlier for the vector index.
+4.	Select the embedding output as the **query** field (e.g. *${embed_question.output}*).
 15.	Leave default value for **top_k**.
 
+**NOTE**: Feel free move the nodes around to make it easier to view the flow.
+
 ![](/img/search-vector.png)
  
-16.	Click the **Save** button
-17.	On the Flow toolbar, click on **Prompt** tool. This will generate a new Prompt section at the bottom of the flow.
-18.	Enter a **Name** for the node (e.g. generate_prompt).  Then click the **Add** button.
-19.	Copy the following text in the Prompt textbox:
-```
+*Construct Prompt*
+
+1.	On the **TOOLS** toolbar, select the **Prompt** tool by clicking on plus icon **+**.  This will generate a new Prompt section at the bottom of the flow.
+2.	Enter a **Name** for the node (e.g. generate_prompt).  This will generate a new Prompt section at the bottom of the flow.
+3. Click on the **.jinja2** link to open the prompt editor.  This will open a new tab in the editor.
+4.	Delete all the text in the file.  Then, copy the following text in the Prompt textbox:
+```bash
 system:
 You are an AI system designed to answer questions. When presented with a scenario, you must reply with accuracy to inquirers' inquiries.  If there is ever a situation where you are unsure of the potential answers, simply respond with "I don't know.  
 
@@ -251,99 +297,115 @@ assistant:
 user:
 {{question}}
 ```
-20.	Click the **Validate and parse input** button to generate the input field for the prompt.
-21.	Select the ${Search_Vector_Index.output} for **chat_history**
-22.	For **contexts**, select ${inputs.chat_history}.
-23.	Select ${inputs.question} for the **question** field.
- 
-![](/img/output_prompt.png)
+![](/img/construct-prompt.png)
 
-24.	Click on the **Save** button
-25.	Click on the **chat** node and drag it below the **generate_prompt** node
+5.	Close the .jinja2 prompt editor tab.  Then return to the flow.dag.yaml tab.
+6. In your prompt section of the flow, you would see the prompt flow automatically generated the input fields from the placeholder fields in your .jinja2 file.
+7.	Select ${inputs.question} for the **question** field.
+8.	For **contexts**, select ${Search_Vector_Index.output}.
+9.	Select the ${inputs.chat_history} for **chat_history**
+
+![](/img/prompt-inputs.png)
+
+*chat*
+
+1.	Click on the **chat** node and drag it below the **generate_prompt** node.
 
 ![](/img/chat-node.png)
  
-26.	Under the **Flow** pane, scroll up to the **chat** section
- 
-![](/img/chat-node-input.png)
+2.	Click on the **chat** to scroll up to the *chat* section.
+3. Click on the **.jinja2** link for the chat to open the prompt editor.  This will open a new tab in the editor.
 
-27.	Copy and paste the following text in the Prompt textbox.  This specifies the output to display to the user:
-```
+![](/img/chat-jinja2.png)
+
+4.	Delete all the text in the file.  Then, copy and paste the following text in the Prompt textbox.  This specifies the output to display to the user:
+```bash
 {{prompt_response}}
 ```
-28.	Click on the Validate and parse input button to regenerate a new input field. Prompt Flow will generate the text metadata you specified in the Prompt textbox.
-29.	In the Prompt_response value, select ${generate_prompt.output}.
-30.	Under the Flow pane, scroll up to the output section.
-31.	Replace the answer to ${chat.output}
-32.	Click on the Save button
+5.	Close the .jinja2 prompt editor tab.  Then return to the flow.dag.yaml tab.
+6. In your chat section of the flow, you would see that prompt flow automatically generated a **prompt_response** input fields from the placeholder fields in your .jinja2 file.
+7.	In the *prompt_response* value, select ${generate_prompt.output}.
 
-## Exercise 4: Test Chat with your own data
 
-Now that you have updated the prompt flow logic to you use your own data and process the output, let’s see if the Chat will generate more relevant information pertaining to our Contoso dental data.  First let clear the chat history, so the question is not base not the prior responses from our OpenAI model.
+## Test Chat with your own data
 
-1.	Click on the edit icon for the chat history field on the Inputs flow section.  This will open an Edit text window.
- 
-2.	Select all the text with the open and close brackets “[ ]”
-3.	Click on the Chat button to test the new flow
-4.	Enter the following question:
+Now that you have updated the prompt flow logic to you use your own data and process the output, let’s see if the Chat will generate relevant information pertaining to our Contoso dental data.  
 
+*Run the Chat*
+
+1.	To test the Chat flow, click on the **Run** icon
+2. On top of the page, select **Run it with interactive mode (text-only)** option. 
+3. Enter the input below for the **User** prompt and click enter.
+
+```shell
 what is your dental clinic address?
+```
 
-5.	You should get the following response:
+![](/img/what-is-address-grnd.png)
 
-![](/img/dental-clinic-address.png)
+4.	Finally, enter the input below for the **User** prompt and click enter.
+
+```shell
+what is your dental clinic's phone number?
+```
+
+![](/img/what-is-phone-grnd.png)
  
-6.	Next, enter the following question:
+5.	Now, let's try a question that is not in our data to test if AI chatbot is grounded our custom data. Enter the following question:
 
-What is the clinic's phone number?
+```shell
+Who is the author of Hamlet?
+```
+6.	You should get the following response:
 
-7.	You should get the following response:
+![](/img/what-is-hamlet-grnd.png)
 
-![](/img/dental-clinic-phone.png)
- 
-8.	Finally, enter the following what questions:
+As you can see, our chat produces a response that is factual but *Hamlet* not in our Contoso dental data.As you can see Hamlet is not is our contoso dental data. This show that our chatbot is has problems still grounded to our data.  In the next exercise, we’ll learn how to use the prompt engineering to add rules to our chatbot to restrict its response.
 
-My tooth is aching really bad.  What could be the cause?
-
-9.	You should get the following response:
- 
-![](/img/toothache.png)
-
-## Exercise 5:  Handle Groundedness & Hallucinations
+Handle Groundedness issues
 
 Always an LLM model may be eager to provide the user with a response.  It’s important to make sure that the model is not providing response to questions that are out of scope with subject domain of your data.  Another issue is the response may provide information that is not factual and, in some cases, even provide reference to the answer that appears legitimate.  This is a risk, because the information provided to the user can have negative or harmful consequences.
 
-Grounding test
-1.	On generate_prompt section of the Flow pane, click on Generate variants button. 
-2.	Select Connection for your Azure OpenAI 
-3.	Next, select the Deployment name.
- 
-4.	Click Submit button.  These will generate a Variant_1 prompt section.
-5.	In the prompt textbox, copy and paste the following text:
+*Grounding outputs*
 
+1. Open the **flow.dag.yaml** file.  In the **promt** section, 
+2. Click on the **.jinja2** link to open the prompt editor.  This will open a new tab in the editor.
+4.	Modify the **system** text.  Then, copy the following text:
+```bash
+system:
+ You are an AI system designed to answer questions from users in a designated context. When presented with a scenario, you must reply with accuracy to inquirers' inquiries using only descriptors provided in that same context. Only provided information in the vector index scope. If there is ever a situation where you are unsure of the potential answers, simply respond with "I don't know.
+Please add citation after each sentence when possible in a form. 
 ```
-System: 
-As an AI Assistant Prompt Engineer, I need you to generate a response to the user's question.  Please cite your sources.
 
-context: {{contexts}}
+![](/img/update-prompt-grnd.png)
 
-{% for item in chat_history %}
-user:
-{{item.inputs.question}}
-assistant:
-{{item.outputs.answer}}
-{% endfor %}
+5. Close the .jinja2 prompt editor tab.  Then return to the flow.dag.yaml tab.
+6. To test the Chat flow, click on the **Run** icon. Then select **Run it with interactive mode (text-only)** option.
+7. Now, let's enter the following question again:
 
-user:
-{{question}}
+```shell
+Who is the author of Hamlet?
 ```
-6.	Click the Save button
-7.	Now, enter the following question:
-Which supplements are good for teeth?
-8.	As you can see, our chat produces a response that is factual button not in our Contoso dental data.
+
+![](/img/what-is-hamlet-dontknow.png)
+
+As you can see, the chatbot is now responding with “I don’t know” when the question is not in our vector index for contoso dental.
+
+8. Let's verify again the address our the dental clinic.  Enter the following question:
+
+```shell
+what is the dental clinic address?
+```
+
+7.	Finally, enter the following question:
+
+```shell
+My tooth is aching really bad.  What could be the cause?
+```
+![](/img/toothache-decay.png)
  
 
-## Exercise 6:  Evaluate your Flow
+## Evaluate your Flow
 You can unit test your Flow.  However, Prompt flow provides a gallery of sample evaluation flows your can use to test you Flow in bulk.  For example, classification accuracy, QnA Groundedness, QnA Relevant, QnA Similarity, QnA F1 Score etc.  This enables you to test how well your LLM is performing.  In addition, you have the ability to examine which of your variant prompts are performing better.   In this example, we’ll use the QnA Groundedness evaluation template to test our flow.
 
 1.	Click on the **Evaluate** on the top right-side of the screen.
